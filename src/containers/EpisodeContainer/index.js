@@ -64,7 +64,8 @@ const mapStateToProps = state => {
     episodes: entities,
     error,
     maxPage,
-    currentPage
+    currentPage,
+    alreadyLoaded
   }
 }
  

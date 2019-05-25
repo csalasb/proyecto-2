@@ -29,9 +29,9 @@ export const getEpisodes = () => {
 export const loadMore = () => {
   return async (dispatch, getState) => {
     dispatch(getEpisodesRequest())
-    
+    console.log('getState() EP',getState())
     try {
-      const response = await axios.get(getState().characters.next)
+      const response = await axios.get(getState().episodes.next)
 
       dispatch(loadMoreUpdate(response.data))
       dispatch(
