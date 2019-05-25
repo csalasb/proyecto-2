@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
-import { getCharacters } from '../../redux/characters/thunks'
-import { loadMore } from '../../redux/characters/thunks'
+import { getEpisodes } from '../../redux/episodes/thunks'
+import { loadMore } from '../../redux/episodes/thunks'
 import './App.css';
 
-const CharacterContainer = props => {
+const EpisodeContainer = props => {
   const {
-    getCharacters,
+    getEpisodes,
     loading,
-    characters,
+    episodes,
     error,
     loadMore,
     maxPage,
@@ -17,7 +17,7 @@ const CharacterContainer = props => {
   } = props
 
   useEffect(() => {
-    !alreadyLoaded && getCharacters()
+    !alreadyLoaded && getEpisodes()
   }, [])
 
   return (
@@ -31,19 +31,15 @@ const CharacterContainer = props => {
           </div>
         )}
 
-        {!loading && characters.map((character, index) => (
+        {currentPage}
+
+        {!loading && episodes.map((episode, index) => (
           <div key={index} style={{marginBottom: '20px'}}>
             <div>
-             id: {character.id}
+             id: {episode.id}
             </div>
             <div>
-             name: {character.name}
-            </div>
-            <div>
-             species: {character.species}
-            </div>
-            <div>
-             origin: {character.origin.name}
+             name: {episode.name}
             </div>
           </div>
         ))}
@@ -61,21 +57,20 @@ const mapStateToProps = state => {
     maxPage,
     currentPage,
     alreadyLoaded
-  } = state.characters
+  } = state.episodes
 
   return {
     loading,
-    characters: entities,
+    episodes: entities,
     error,
     maxPage,
-    currentPage,
-    alreadyLoaded
+    currentPage
   }
 }
  
 const mapDispatchToProps = {
-  getCharacters,
+  getEpisodes,
   loadMore
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CharacterContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EpisodeContainer)

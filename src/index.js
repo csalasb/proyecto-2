@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import CharacterContainer from './containers/CharacterContainer';
 import * as serviceWorker from './serviceWorker';
 import store from './redux/store'
 import { Provider } from 'react-redux'
+import AppRouter from './routes.js'
 
 const ToRender = () => (
   <Provider store={store}>
-    <CharacterContainer />
+    <AppRouter />
   </Provider>
 )
 

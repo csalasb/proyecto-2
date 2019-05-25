@@ -1,47 +1,46 @@
 import axios from "axios";
 import {
-  getCharactersRequest,
-  getCharactersSuccess,
-  getCharactersFail,
+  getEpisodesRequest,
+  getEpisodesSuccess,
+  getEpisodesFail,
   loadMoreUpdate
 } from './index'
 
-const baseApiUrl = 'https://rickandmortyapi.com/api/character/'
+const baseApiUrl = 'https://rickandmortyapi.com/api/episode/'
 
-export const getCharacters = () => {
+export const getEpisodes = () => {
   return async (dispatch, getState) => {
-    dispatch(getCharactersRequest())
+    dispatch(getEpisodesRequest())
 
     try {
       const response = await axios.get(baseApiUrl)
 
       dispatch(
-        getCharactersSuccess(response.data)
-        // !alreadyLoaded && getCharactersSuccess(response.data.results)
+        getEpisodesSuccess(response.data)
       )
     } catch (e) {
       const error = new Error(e)
 
-      dispatch(getCharactersFail(error.toString()))
+      dispatch(getEpisodesFail(error.toString()))
     }   
   }
 }
 
 export const loadMore = () => {
   return async (dispatch, getState) => {
-    dispatch(getCharactersRequest())
+    dispatch(getEpisodesRequest())
     
     try {
       const response = await axios.get(getState().characters.next)
 
       dispatch(loadMoreUpdate(response.data))
       dispatch(
-        getCharactersSuccess(response.data)
+        getEpisodesSuccess(response.data)
       )
     } catch (e) {
       const error = new Error(e)
 
-      dispatch(getCharactersFail(error.toString()))
+      dispatch(getEpisodesFail(error.toString()))
     }   
   }
 }
