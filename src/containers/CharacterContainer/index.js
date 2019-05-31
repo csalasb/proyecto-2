@@ -24,8 +24,8 @@ const CharacterContainer = props => {
   }, [])
 
   return (
-    <div className='App'>
-      <header className='App-header'>
+    <div>
+      <div className='load-more' >
         {error}
 
         {loading && (
@@ -33,28 +33,32 @@ const CharacterContainer = props => {
             IS LOADING...
           </div>
         )}
+        <div>
+          {currentPage < maxPage && <button className='button' onClick={loadMore}>Ver más</button>}
+        </div>
+      </div>
 
-        {!loading && characters.map((character, index) => (
-          <div key={index} style={{ marginBottom: '20px' }} className={`${favourites.indexOf(character.id) !== -1 ? 'favourite' : ''}`} >
-            <div>
-              {<button onClick={() => toggleFavourite(character.id)}>Favorito</button>}
-            </div>
-            <div>
-             id: {character.id}
-            </div>
-            <div>
-             name: {character.name}
-            </div>
-            <div>
-             species: {character.species}
-            </div>
-            <div>
-             origin: {character.origin.name}
+      {!loading && characters.map((character, index) => {
+        const favorito = favourites.indexOf(character.id) !== -1
+        return (
+          <div key={index} style={{ marginBottom: '20px' }} className={`card ${favorito ? 'favourite' : ''}`} >
+            <img src={character.image} alt='Avatar' style={{ width: '300px' }} />
+            <div className='container'>
+              <h4>
+                <b>{character.name}</b>
+                <div onClick={() => toggleFavourite(character.id)} style={{ float: 'right', cursor: 'pointer' }} title='Agregar a favoritos'>{favorito ? '⭐' : '☆'}</div>
+              </h4>
+              <p>{character.species}</p>
+              <p>{character.origin.name}</p>
             </div>
           </div>
-        ))}
-        {currentPage < maxPage && <button onClick={loadMore}>Ver más</button>}
-      </header>
+        )
+      })}
+
+      <div className='load-more'>
+        {currentPage < maxPage && <button className='button' onClick={loadMore}>Ver más</button>}
+      </div>
+
     </div>
   )
 }

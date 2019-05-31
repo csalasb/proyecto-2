@@ -12,9 +12,12 @@ function AppRouter () {
   return (
     <Router>
       <div>
-        <Link to='/'>Home</Link>
-        <Link to='/characters/'>Characters</Link>
-        <Link to='/episodes/'>Episodes</Link>
+        <ul className='nav'>
+          <li className='nav-item'><Link to='/'>Home</Link></li>
+          <li className='nav-item'><Link to='/characters/'>Characters</Link></li>
+          <li className='nav-item'><Link to='/episodes/'>Episodes</Link></li>
+          <li className='nav-item-right active'><a href='#logout'>Logout</a></li>
+        </ul>
         <Switch>
           <Route path='/' exact component={Index} />
           <Route path='/characters/' exact component={Characters} />
