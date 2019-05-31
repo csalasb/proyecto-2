@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getCharacters } from '../../redux/characters/thunks'
 import { loadMore } from '../../redux/characters/thunks'
-import './App.css';
+import { toggleFavourite as toggleFavouriteCreator } from '../../redux/characters'
+import './App.css'
 
 const CharacterContainer = props => {
   const {
@@ -13,7 +14,9 @@ const CharacterContainer = props => {
     loadMore,
     maxPage,
     currentPage,
-    alreadyLoaded
+    alreadyLoaded,
+    toggleFavourite,
+    favourites
   } = props
 
   useEffect(() => {
@@ -21,8 +24,8 @@ const CharacterContainer = props => {
   }, [])
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App'>
+      <header className='App-header'>
         {error}
 
         {loading && (
@@ -32,7 +35,10 @@ const CharacterContainer = props => {
         )}
 
         {!loading && characters.map((character, index) => (
-          <div key={index} style={{marginBottom: '20px'}}>
+          <div key={index} style={{ marginBottom: '20px' }} className={`${favourites.indexOf(character.id) !== -1 ? 'favourite' : ''}`} >
+            <div>
+              {<button onClick={() => toggleFavourite(character.id)}>Favorito</button>}
+            </div>
             <div>
              id: {character.id}
             </div>
@@ -50,7 +56,7 @@ const CharacterContainer = props => {
         {currentPage < maxPage && <button onClick={loadMore}>Ver más</button>}
       </header>
     </div>
-  );
+  )
 }
 
 const mapStateToProps = state => {
@@ -60,7 +66,8 @@ const mapStateToProps = state => {
     error,
     maxPage,
     currentPage,
-    alreadyLoaded
+    alreadyLoaded,
+    favourites
   } = state.characters
 
   return {
@@ -69,13 +76,15 @@ const mapStateToProps = state => {
     error,
     maxPage,
     currentPage,
-    alreadyLoaded
+    alreadyLoaded,
+    favourites
   }
 }
- 
+
 const mapDispatchToProps = {
   getCharacters,
-  loadMore
+  loadMore,
+  toggleFavourite: toggleFavouriteCreator
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CharacterContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CharacterContainer)

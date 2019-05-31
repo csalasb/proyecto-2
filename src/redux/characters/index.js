@@ -2,15 +2,10 @@ const GET_CHARACTERS_REQUEST = 'GET_CHARACTERS_REQUEST'
 const GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS'
 const GET_CHARACTERS_FAIL = 'GET_CHARACTERS_FAIL'
 const LOAD_MORE_UPDATE_CHARACTERS = 'LOAD_MORE_UPDATE_CHARACTERS'
+const TOGGLE_FAVOURITE = 'TOGGLE_FAVOURITE'
 
 export const getCharactersRequest = () => ({ type: GET_CHARACTERS_REQUEST })
 
-// export const getCharactersSuccess = (characters) => ({
-//   type: GET_CHARACTERS_SUCCESS,
-//   payload: {
-//     characters
-//   }
-// })
 export const getCharactersSuccess = (data) => ({
   type: GET_CHARACTERS_SUCCESS,
   payload: {
@@ -32,13 +27,23 @@ export const loadMoreUpdate = (data) => ({
   }
 })
 
+export const toggleFavourite = id => {
+  return ({
+    type: TOGGLE_FAVOURITE,
+    payload: {
+      id
+    }
+  })
+}
+
 const initialState = {
   entities: [],
   loading: false,
   currentPage: 1,
   next: '',
   maxPage: null,
-  alreadyLoaded: false
+  alreadyLoaded: false,
+  favourites: []
 }
 
 export default (state = initialState, action) => {
@@ -51,17 +56,6 @@ export default (state = initialState, action) => {
       }
     }
 
-    // case GET_CHARACTERS_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     entities: [
-    //       ...state.entities,
-    //       ...action.payload.characters
-    //     ],
-    //     alreadyLoaded: true
-    //   }
-    // }
     case GET_CHARACTERS_SUCCESS: {
       return {
         ...state,
@@ -88,6 +82,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentPage: state.currentPage + 1
+      }
+    }
+
+    case TOGGLE_FAVOURITE: {
+      const { id } = action.payload
+      let filteredFavourites = state.favourites
+      if (state.favourites.indexOf(id) !== -1) {
+        if (state.favourites.length > 0) {
+          filteredFavourites = state.favourites.filter(function (value) {
+            return value !== id
+          })
+        }
+      } else {
+        filteredFavourites = [...state.favourites, id]
+      }
+      return {
+        ...state,
+        favourites: filteredFavourites
       }
     }
 

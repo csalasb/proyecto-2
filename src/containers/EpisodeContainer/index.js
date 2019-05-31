@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getEpisodes } from '../../redux/episodes/thunks'
 import { loadMore } from '../../redux/episodes/thunks'
-import './App.css';
+import { toggleFavourite as toggleFavouriteCreator } from '../../redux/episodes'
+import './App.css'
 
 const EpisodeContainer = props => {
   const {
@@ -13,7 +14,9 @@ const EpisodeContainer = props => {
     loadMore,
     maxPage,
     currentPage,
-    alreadyLoaded
+    alreadyLoaded,
+    toggleFavourite,
+    favourites
   } = props
 
   useEffect(() => {
@@ -21,8 +24,8 @@ const EpisodeContainer = props => {
   }, [])
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App'>
+      <header className='App-header'>
         {error}
 
         {loading && (
@@ -31,10 +34,11 @@ const EpisodeContainer = props => {
           </div>
         )}
 
-        {currentPage}
-
         {!loading && episodes.map((episode, index) => (
-          <div key={index} style={{marginBottom: '20px'}}>
+          <div key={index} style={{ marginBottom: '20px' }} className={`${favourites.indexOf(episode.id) !== -1 ? 'favourite' : ''}`} >
+            <div>
+              {<button onClick={() => toggleFavourite(episode.id)}>Favorito</button>}
+            </div>
             <div>
              id: {episode.id}
             </div>
@@ -46,7 +50,7 @@ const EpisodeContainer = props => {
         {currentPage < maxPage && <button onClick={loadMore}>Ver más</button>}
       </header>
     </div>
-  );
+  )
 }
 
 const mapStateToProps = state => {
@@ -56,7 +60,8 @@ const mapStateToProps = state => {
     error,
     maxPage,
     currentPage,
-    alreadyLoaded
+    alreadyLoaded,
+    favourites
   } = state.episodes
 
   return {
@@ -65,13 +70,15 @@ const mapStateToProps = state => {
     error,
     maxPage,
     currentPage,
-    alreadyLoaded
+    alreadyLoaded,
+    favourites
   }
 }
- 
+
 const mapDispatchToProps = {
   getEpisodes,
-  loadMore
+  loadMore,
+  toggleFavourite: toggleFavouriteCreator
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EpisodeContainer)

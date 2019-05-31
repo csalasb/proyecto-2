@@ -30,3 +30,8 @@
     transform: rotate(360deg);
   }
 }
+
+.favourite {
+  color: #000000;
+  background-color: #F0E68C;
+}
