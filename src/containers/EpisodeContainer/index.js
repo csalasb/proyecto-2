@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getEpisodes } from '../../redux/episodes/thunks'
 import { loadMore } from '../../redux/episodes/thunks'
 import { toggleFavourite as toggleFavouriteCreator } from '../../redux/episodes'
+import LoadMore from '../../components/LoadMore'
 
 const EpisodeContainer = props => {
   const {
@@ -24,32 +25,10 @@ const EpisodeContainer = props => {
 
   return (
     <div>
-      <div className='load-more' >
+      <div>
         {error}
-
-        {loading && (
-          <div>
-            IS LOADING...
-          </div>
-        )}
-        <div>
-          {currentPage < maxPage && <button className='button' onClick={loadMore}>Ver más</button>}
-        </div>
+        <LoadMore loadMore={loadMore} maxPage={maxPage} currentPage={currentPage} loading={loading} />
       </div>
-
-      {/* {!loading && episodes.map((episode, index) => (
-        <div key={index} style={{ marginBottom: '20px' }} className={`${favourites.indexOf(episode.id) !== -1 ? 'favourite' : ''}`} >
-          <div>
-            {<button onClick={() => toggleFavourite(episode.id)}>Favorito</button>}
-          </div>
-          <div>
-            id: {episode.id}
-          </div>
-          <div>
-            name: {episode.name}
-          </div>
-        </div>
-      ))} */}
       <table className='episode-table'>
         <thead>
           <tr className='episode-row'>
@@ -67,7 +46,7 @@ const EpisodeContainer = props => {
                 <td>{episode.episode}</td>
                 <td>{episode.name}</td>
                 <td>{episode.air_date}</td>
-                <td><div onClick={() => toggleFavourite(episode.id)} style={{ float: 'right', cursor: 'pointer' }} title='Agregar a favoritos'>{favorito ? '⭐' : '☆'}</div></td>
+                <td><div onClick={() => toggleFavourite(episode.id)} style={{ cursor: 'pointer', textAlign: 'center' }} title='Agregar a favoritos'>{favorito ? '★' : '☆'}</div></td>
               </tr>
             )
           })
@@ -75,9 +54,7 @@ const EpisodeContainer = props => {
         </tbody>
       </table>
 
-      <div className='load-more'>
-        {currentPage < maxPage && <button className='button' onClick={loadMore}>Ver más</button>}
-      </div>
+      <LoadMore loadMore={loadMore} maxPage={maxPage} currentPage={currentPage} loading={loading} />
       
     </div>
   )

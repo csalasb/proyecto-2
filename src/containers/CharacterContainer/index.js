@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getCharacters } from '../../redux/characters/thunks'
 import { loadMore } from '../../redux/characters/thunks'
 import { toggleFavourite as toggleFavouriteCreator } from '../../redux/characters'
+import LoadMore from '../../components/LoadMore'
 import './App.css'
 
 const CharacterContainer = props => {
@@ -25,20 +26,12 @@ const CharacterContainer = props => {
 
   return (
     <div>
-      <div className='load-more' >
+      <div>
         {error}
-
-        {loading && (
-          <div>
-            IS LOADING...
-          </div>
-        )}
-        <div>
-          {currentPage < maxPage && <button className='button' onClick={loadMore}>Ver más</button>}
-        </div>
+        <LoadMore loadMore={loadMore} maxPage={maxPage} currentPage={currentPage} loading={loading} />
       </div>
 
-      {!loading && characters.map((character, index) => {
+      {characters.map((character, index) => {
         const favorito = favourites.indexOf(character.id) !== -1
         return (
           <div key={index} style={{ marginBottom: '20px' }} className={`card ${favorito ? 'favourite' : ''}`} >
@@ -46,7 +39,7 @@ const CharacterContainer = props => {
             <div className='container'>
               <h4>
                 <b>{character.name}</b>
-                <div onClick={() => toggleFavourite(character.id)} style={{ float: 'right', cursor: 'pointer' }} title='Agregar a favoritos'>{favorito ? '⭐' : '☆'}</div>
+                <div onClick={() => toggleFavourite(character.id)} style={{ float: 'right', cursor: 'pointer' }} title='Agregar a favoritos'>{favorito ? '★' : '☆'}</div>
               </h4>
               <p>{character.species}</p>
               <p>{character.origin.name}</p>
@@ -55,9 +48,7 @@ const CharacterContainer = props => {
         )
       })}
 
-      <div className='load-more'>
-        {currentPage < maxPage && <button className='button' onClick={loadMore}>Ver más</button>}
-      </div>
+      <LoadMore loadMore={loadMore} maxPage={maxPage} currentPage={currentPage} loading={loading} />
 
     </div>
   )
