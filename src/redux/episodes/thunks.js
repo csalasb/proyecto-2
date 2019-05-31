@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 import {
   getEpisodesRequest,
   getEpisodesSuccess,
@@ -22,14 +22,14 @@ export const getEpisodes = () => {
       const error = new Error(e)
 
       dispatch(getEpisodesFail(error.toString()))
-    }   
+    }
   }
 }
 
 export const loadMore = () => {
   return async (dispatch, getState) => {
     dispatch(getEpisodesRequest())
-    console.log('getState() EP',getState())
+
     try {
       const response = await axios.get(getState().episodes.next)
 
@@ -41,6 +41,6 @@ export const loadMore = () => {
       const error = new Error(e)
 
       dispatch(getEpisodesFail(error.toString()))
-    }   
+    }
   }
 }
