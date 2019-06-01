@@ -17,7 +17,7 @@ const CharacterContainer = props => {
     currentPage,
     alreadyLoaded,
     toggleFavourite,
-    favourites
+    userFavourites
   } = props
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const CharacterContainer = props => {
       </div>
 
       {characters.map((character, index) => {
-        const favorito = favourites.indexOf(character.id) !== -1
+        const favorito = userFavourites.indexOf(character.id) !== -1
         return (
           <div key={index} style={{ marginBottom: '20px' }} className={`card ${favorito ? 'favourite' : ''}`} >
             <img src={character.image} alt='Avatar' style={{ width: '300px' }} />
@@ -65,6 +65,8 @@ const mapStateToProps = state => {
     favourites
   } = state.characters
 
+  let dataSource = JSON.parse(localStorage.getItem('CharactersFavourites'))
+  let userFavourites = dataSource === null ? favourites[localStorage.getItem('userId')] : dataSource[localStorage.getItem('userId')]
   return {
     loading,
     characters: entities,
@@ -72,7 +74,7 @@ const mapStateToProps = state => {
     maxPage,
     currentPage,
     alreadyLoaded,
-    favourites
+    userFavourites
   }
 }
 

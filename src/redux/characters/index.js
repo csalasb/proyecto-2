@@ -43,7 +43,7 @@ const initialState = {
   next: '',
   maxPage: null,
   alreadyLoaded: false,
-  favourites: []
+  favourites: { '1': [], '2': [] }
 }
 
 export default (state = initialState, action) => {
@@ -86,16 +86,20 @@ export default (state = initialState, action) => {
 
     case TOGGLE_FAVOURITE: {
       const { id } = action.payload
-      let filteredFavourites = state.favourites
-      if (state.favourites.indexOf(id) !== -1) {
-        if (state.favourites.length > 0) {
-          filteredFavourites = state.favourites.filter(function (value) {
+      let dataSource = JSON.parse(localStorage.getItem('CharactersFavourites'))
+      let userFavourites = dataSource === null ? state.favourites[localStorage.getItem('userId')] : dataSource[localStorage.getItem('userId')]
+      // let userFavourites = JSON.parse(localStorage.getItem('CharactersFavourites'))[localStorage.getItem('userId')]
+      let filteredFavourites = dataSource === null ? state.favourites : dataSource
+      if (userFavourites.indexOf(id) !== -1) {
+        if (userFavourites.length > 0) {
+          filteredFavourites[localStorage.getItem('userId')] = userFavourites.filter(function (value) {
             return value !== id
           })
         }
       } else {
-        filteredFavourites = [...state.favourites, id]
+        filteredFavourites[localStorage.getItem('userId')] = [...userFavourites, id]
       }
+      localStorage.setItem('CharactersFavourites', JSON.stringify(filteredFavourites))
       return {
         ...state,
         favourites: filteredFavourites

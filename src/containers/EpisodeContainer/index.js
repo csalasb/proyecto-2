@@ -16,7 +16,8 @@ const EpisodeContainer = props => {
     currentPage,
     alreadyLoaded,
     toggleFavourite,
-    favourites
+    favourites,
+    userFavourites
   } = props
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const EpisodeContainer = props => {
         </thead>
         <tbody>
           {episodes.map((episode, index) => {
-            const favorito = favourites.indexOf(episode.id) !== -1
+            const favorito = userFavourites.indexOf(episode.id) !== -1
             return (
               <tr key={index} className={`${favorito ? 'favourite' : ''}`}>
                 <td>{episode.episode}</td>
@@ -71,6 +72,9 @@ const mapStateToProps = state => {
     favourites
   } = state.episodes
 
+  let dataSource = JSON.parse(localStorage.getItem('EpisodesFavourites'))
+  let userFavourites = dataSource === null ? favourites[localStorage.getItem('userId')] : dataSource[localStorage.getItem('userId')]
+
   return {
     loading,
     episodes: entities,
@@ -78,7 +82,8 @@ const mapStateToProps = state => {
     maxPage,
     currentPage,
     alreadyLoaded,
-    favourites
+    favourites,
+    userFavourites
   }
 }
 
