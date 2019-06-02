@@ -16,7 +16,6 @@ const EpisodeContainer = props => {
     currentPage,
     alreadyLoaded,
     toggleFavourite,
-    favourites,
     userFavourites
   } = props
 
@@ -82,7 +81,6 @@ const mapStateToProps = state => {
     maxPage,
     currentPage,
     alreadyLoaded,
-    favourites,
     userFavourites
   }
 }

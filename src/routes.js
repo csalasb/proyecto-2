@@ -6,6 +6,7 @@ import EpisodeContainer from './containers/EpisodeContainer'
 import LoginPage from './pages/LoginPage'
 import PrivateRoute from './containers/PrivateRoute'
 // import LogOutPage from './pages/LogOutPage'
+import MatchesPage from './pages/MatchesPage'
 
 const Index = () => <h2>Home</h2>
 
@@ -17,13 +18,14 @@ function AppRouter () {
           <li className='nav-item'><Link to='/'>Home</Link></li>
           <li className='nav-item'><Link to='/characters/'>Characters</Link></li>
           <li className='nav-item'><Link to='/episodes/'>Episodes</Link></li>
+          <li className='nav-item'><Link to='/matches/'>Matches</Link></li>
           <li className='nav-item-right active'><a onClick={() => console.log('logout')}>Logout</a></li>
         </ul>
         <Route path='/' exact component={Index} />
         <Route exact path='/login' component={LoginPage} />
-        {/* <Route exact path='/logout' component={LogOutPage} /> */}
         <PrivateRoute path='/characters/' exact component={CharacterContainer} />
         <PrivateRoute path='/episodes/' exact component={EpisodeContainer} />
+        <PrivateRoute exact path='/matches' component={MatchesPage} />
         {/* <Route component={NotFound} /> */}
       </div>
     </Router>
