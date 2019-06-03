@@ -7,6 +7,8 @@ import LoginPage from './pages/LoginPage'
 import PrivateRoute from './containers/PrivateRoute'
 // import LogOutPage from './pages/LogOutPage'
 import MatchesPage from './pages/MatchesPage'
+import RegisterPage from './pages/RegisterPage'
+import NotLoggedInRoute from './containers/NotLoggedInRoute'
 
 const Index = () => <h2>Home</h2>
 
@@ -15,17 +17,18 @@ function AppRouter () {
     <Router>
       <div>
         <ul className='nav'>
-          <li className='nav-item'><Link to='/'>Home</Link></li>
-          <li className='nav-item'><Link to='/characters/'>Characters</Link></li>
-          <li className='nav-item'><Link to='/episodes/'>Episodes</Link></li>
-          <li className='nav-item'><Link to='/matches/'>Matches</Link></li>
+          <li className='nav-item'><Link to='/proyecto-2/'>Home</Link></li>
+          <li className='nav-item'><Link to='/proyecto-2/characters/'>Characters</Link></li>
+          <li className='nav-item'><Link to='/proyecto-2/episodes/'>Episodes</Link></li>
+          <li className='nav-item'><Link to='/proyecto-2/matches/'>Matches</Link></li>
           <li className='nav-item-right active'><a onClick={() => console.log('logout')}>Logout</a></li>
         </ul>
-        <Route path='/' exact component={Index} />
-        <Route exact path='/login' component={LoginPage} />
-        <PrivateRoute path='/characters/' exact component={CharacterContainer} />
-        <PrivateRoute path='/episodes/' exact component={EpisodeContainer} />
-        <PrivateRoute exact path='/matches' component={MatchesPage} />
+        <NotLoggedInRoute exact path='/proyecto-2/login' component={LoginPage} />
+        <NotLoggedInRoute exact path='/proyecto-2/register' component={RegisterPage} />
+        <PrivateRoute path='/proyecto-2' exact component={Index} />
+        <PrivateRoute path='/proyecto-2/characters/' exact component={CharacterContainer} />
+        <PrivateRoute path='/proyecto-2/episodes/' exact component={EpisodeContainer} />
+        <PrivateRoute exact path='/proyecto-2/matches' component={MatchesPage} />
         {/* <Route component={NotFound} /> */}
       </div>
     </Router>

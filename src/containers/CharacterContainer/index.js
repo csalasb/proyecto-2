@@ -32,7 +32,7 @@ const CharacterContainer = props => {
       </div>
 
       {characters.map((character, index) => {
-        const favorito = userFavourites.some(el => el.id === character.id)
+        const favorito = userFavourites !== undefined ? userFavourites.some(el => el.id === character.id) : false
         return (
           <div key={index} style={{ marginBottom: '20px' }} className={`card ${favorito ? 'favourite' : ''}`} >
             <img src={character.image} alt='Avatar' style={{ width: '300px' }} />
@@ -67,6 +67,7 @@ const mapStateToProps = state => {
 
   let dataSource = JSON.parse(localStorage.getItem('CharactersFavourites'))
   let userFavourites = dataSource === null ? favourites[localStorage.getItem('userId')] : dataSource[localStorage.getItem('userId')]
+  console.log('userid', localStorage.getItem('userId'))
   return {
     loading,
     characters: entities,

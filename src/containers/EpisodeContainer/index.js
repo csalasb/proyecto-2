@@ -40,7 +40,7 @@ const EpisodeContainer = props => {
         </thead>
         <tbody>
           {episodes.map((episode, index) => {
-            const favorito = userFavourites.some(el => el.id === episode.id)
+            const favorito = userFavourites !== undefined ? userFavourites.some(el => el.id === episode.id) : false
             return (
               <tr key={index} className={`${favorito ? 'favourite' : ''}`}>
                 <td>{episode.episode}</td>

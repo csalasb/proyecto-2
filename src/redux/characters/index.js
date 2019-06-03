@@ -90,7 +90,7 @@ export default (state = initialState, action) => {
       let dataSource = JSON.parse(localStorage.getItem('CharactersFavourites'))
       let userFavourites = dataSource === null ? state.favourites[localStorage.getItem('userId')] : dataSource[localStorage.getItem('userId')]
       let filteredFavourites = dataSource === null ? state.favourites : dataSource
-      
+      userFavourites = userFavourites === undefined ? [] : userFavourites
       const found = userFavourites.some(el => el.id === id)
       if (found) {
         if (userFavourites.length > 0) {
