@@ -4,49 +4,14 @@ import {
   loginRequest,
   addUserError,
   addUserRequest,
-  addUserSuccess
+  addUserSuccess,
+  logoutRequest,
+  logoutSuccess,
+  logoutError
 } from './index'
 
-// const fakeLogin = (email, password, state) => {
-//   const { users, userList } = state.users
-
-//   return userList.find(userId => {
-//     return (
-//       users[userId].email === email &&
-//         users[userId].password === password
-//     )
-//   })
-// }
-
-// export const login = (email, password) => (dispatch, getState) => {
-//   dispatch(loginRequest())
-
-//   const userId = fakeLogin(email, password, getState())
-
-//   if (userId) {
-//     localStorage.setItem('userId', userId)
-//     // ToDo: mover a thunk de registro de usuarios
-//     let users_array = []
-//     const users = getState().users.users
-//     for (var key in users) {
-//       // skip loop if the property is from prototype
-//       if (!users.hasOwnProperty(key)) continue;
-//       var obj = users[key];
-//       obj["id"] = key
-//       delete obj.password;
-//       delete obj.email;
-//       users_array.push(obj)
-//     }
-//     localStorage.setItem('users', JSON.stringify(users_array))
-//     dispatch(loginSuccess(userId))
-//   } else {
-//     dispatch(loginError('Password o email incorrecto'))
-//   }
-// }
-// const uuidv1 = require('uuid/v1')
-
 const fakeLogin = (email, password, state) => {
-  const { users, userList } = state.users
+  const { users } = state.users
   let dataSource = JSON.parse(localStorage.getItem('users'))
   let UserDataSource = dataSource === null ? users : dataSource
   const UsersObjectKeys = []
@@ -55,25 +20,23 @@ const fakeLogin = (email, password, state) => {
     var obj = UserDataSource[key]
     UsersObjectKeys.push(obj.id)
   }
-  console.log('UsersObjectKeys', UsersObjectKeys)
+
   const loggedUser = UserDataSource.find(user => {
     return (
       user.email === email &&
       user.password === password
     )
   })
-  console.log('userId', loggedUser.id)
   return loggedUser.id
 }
 
 const fakeAddUser = ({ email, password, name, state }) => {
   const {
-    users,
-    userList
+    users
   } = state.users
   let dataSource = JSON.parse(localStorage.getItem('users'))
   let UserDataSource = dataSource === null ? users : dataSource
-  
+
   // keys
   const UsersObjectKeys = []
   for (var key in UserDataSource) {
@@ -81,7 +44,6 @@ const fakeAddUser = ({ email, password, name, state }) => {
     var obj = UserDataSource[key]
     UsersObjectKeys.push(obj.id)
   }
-  console.log('UsersObjectKeys', UsersObjectKeys)
 
   const emailExists = Object.keys(UserDataSource).some(uid => UserDataSource[uid].email === email)
   const emaiEmpty = email === ''
@@ -94,12 +56,11 @@ const fakeAddUser = ({ email, password, name, state }) => {
     } else if (nameEmpty) {
       toReturn.error = 'Debe ingresar un nombre.'
     } else {
-      toReturn.newId = Math.max.apply(null, UsersObjectKeys) + 1//uuidv1()
+      toReturn.newId = Math.max.apply(null, UsersObjectKeys) + 1
     }
   } else {
     toReturn.error = 'Ya existe este usuario.'
   }
-  console.log('toReturn', toReturn)
   return toReturn
 }
 
@@ -152,4 +113,16 @@ export const addUser = ({ email, password, name }) => (dispatch, getState) => {
   } else {
     dispatch(addUserError(error))
   }
+}
+
+export const logout = (userId) => (dispatch, getState) => {
+  dispatch(logoutRequest())
+
+  localStorage.setItem('userId', '')
+  dispatch(logoutSuccess())
+  // if (userId === null) {
+  //   dispatch(logoutSuccess())
+  // } else {
+  //   dispatch(logoutError('Error desconocido'))
+  // }
 }

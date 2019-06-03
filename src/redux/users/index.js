@@ -1,7 +1,9 @@
 const LOGIN_REQUEST = 'LOGIN_REQUEST'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGIN_ERROR = 'LOGIN_ERROR'
-const LOG_OUT = 'LOG_OUT'
+const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+const LOGOUT_ERROR = 'LOGOUT_ERROR'
 
 const ADD_USER_REQUEST = 'ADD_USER_REQUEST'
 const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS'
@@ -25,10 +27,16 @@ export const loginError = error => ({
   }
 })
 
-export const logOut = userId => ({
-  type: LOG_OUT,
+export const logoutRequest = () => ({
+  type: LOGOUT_REQUEST
+})
+export const logoutSuccess = () => ({
+  type: LOGOUT_SUCCESS
+})
+export const logoutError = error => ({
+  type: LOGOUT_ERROR,
   payload: {
-    userId
+    error
   }
 })
 
@@ -101,12 +109,27 @@ export default (state = initialState, action) => {
       }
     }
 
-    case LOG_OUT: {
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        loading: true
+      }
+    }
+
+    case LOGOUT_SUCCESS: {
       return {
         ...state,
         loggedIn: null,
         loading: false,
         error: null
+      }
+    }
+
+    case LOGOUT_ERROR: {
+      return {
+        ...state,
+        error: action.payload.error,
+        loading: false
       }
     }
 

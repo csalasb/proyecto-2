@@ -1,23 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { login as loginCreator } from '../../redux/users/thunks'
+import { logout as logoutCreator } from '../../redux/users/thunks'
 
 const LogOutContainer = props => {
   const {
-    loggedIn,
-    login,
-    error,
-    loading
+    logout,
+    loggedIn
   } = props
 
-  const [values, setValues] = useState({
-    email: '',
-    password: ''
-  })
+  useEffect(() => {
+    logout()
+  }, [])
 
   if (loggedIn) {
-    return <Redirect to='/' />
+    return <Redirect to='/proyecto-2' />
   }
 
   return (
@@ -40,7 +37,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  login: loginCreator
+  logout: logoutCreator
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogOutContainer)

@@ -35,7 +35,7 @@ const LoginContainer = props => {
   }
 
   if (loggedIn) {
-    return <Redirect to='/' />
+    return <Redirect to='/proyecto-2' />
   }
 
   return (
