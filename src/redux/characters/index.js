@@ -99,7 +99,7 @@ export default (state = initialState, action) => {
           })
         }
       } else {
-        filteredFavourites[localStorage.getItem('userId')] = [...userFavourites, {id: id, name: name}]
+        filteredFavourites[localStorage.getItem('userId')] = [...userFavourites, { id: id, name: name }]
       }
       localStorage.setItem('CharactersFavourites', JSON.stringify(filteredFavourites))
       return {
