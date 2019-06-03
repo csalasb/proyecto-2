@@ -23,7 +23,18 @@ export const login = (email, password) => (dispatch, getState) => {
   if (userId) {
     localStorage.setItem('userId', userId)
     // ToDo: mover a thunk de registro de usuarios
-    localStorage.setItem('users', JSON.stringify(getState().users.users))
+    let users_array = []
+    const users = getState().users.users
+    for (var key in users) {
+      // skip loop if the property is from prototype
+      if (!users.hasOwnProperty(key)) continue;
+      var obj = users[key];
+      obj["id"] = key
+      delete obj.password;
+      delete obj.email;
+      users_array.push(obj)
+    }
+    localStorage.setItem('users', JSON.stringify(users_array))
     dispatch(loginSuccess(userId))
   } else {
     dispatch(loginError('Password o email incorrecto'))

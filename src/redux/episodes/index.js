@@ -27,11 +27,12 @@ export const loadMoreUpdate = (data) => ({
   }
 })
 
-export const toggleFavourite = id => {
+export const toggleFavourite = (id, name) => {
   return ({
     type: TOGGLE_FAVOURITE_EPISODES,
     payload: {
-      id
+      id,
+      name
     }
   })
 }
@@ -87,19 +88,20 @@ export default (state = initialState, action) => {
     default: return state
 
     case TOGGLE_FAVOURITE_EPISODES: {
-      const { id } = action.payload
+      const { id, name } = action.payload
       let dataSource = JSON.parse(localStorage.getItem('EpisodesFavourites'))
       let userFavourites = dataSource === null ? state.favourites[localStorage.getItem('userId')] : dataSource[localStorage.getItem('userId')]
-      // let userFavourites = JSON.parse(localStorage.getItem('EpisodesFavourites'))[localStorage.getItem('userId')]
       let filteredFavourites = dataSource === null ? state.favourites : dataSource
-      if (userFavourites.indexOf(id) !== -1) {
+
+      const found = userFavourites.some(el => el.id === id)
+      if (found) {
         if (userFavourites.length > 0) {
           filteredFavourites[localStorage.getItem('userId')] = userFavourites.filter(function (value) {
-            return value !== id
+            return value.id !== id
           })
         }
       } else {
-        filteredFavourites[localStorage.getItem('userId')] = [...userFavourites, id]
+        filteredFavourites[localStorage.getItem('userId')] = [...userFavourites, { id: id, name: name }]
       }
       localStorage.setItem('EpisodesFavourites', JSON.stringify(filteredFavourites))
       return {

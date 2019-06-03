@@ -40,13 +40,13 @@ const EpisodeContainer = props => {
         </thead>
         <tbody>
           {episodes.map((episode, index) => {
-            const favorito = userFavourites.indexOf(episode.id) !== -1
+            const favorito = userFavourites.some(el => el.id === episode.id)
             return (
               <tr key={index} className={`${favorito ? 'favourite' : ''}`}>
                 <td>{episode.episode}</td>
                 <td>{episode.name}</td>
                 <td>{episode.air_date}</td>
-                <td><div onClick={() => toggleFavourite(episode.id)} style={{ cursor: 'pointer', textAlign: 'center' }} title='Agregar a favoritos'>{favorito ? '★' : '☆'}</div></td>
+                <td><div onClick={() => toggleFavourite(episode.id, episode.name)} style={{ cursor: 'pointer', textAlign: 'center' }} title='Agregar a favoritos'>{favorito ? '★' : '☆'}</div></td>
               </tr>
             )
           })
